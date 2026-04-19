@@ -120,7 +120,11 @@ export const reducer = (state: GameState, action: Action): GameState => {
             if (state.paused || state.ended || state.pendingDiscard) return state;
             const set = findSet(state.stack, state.config.columns);
             if (set) {
-                return { ...state, flash: { kind: "hint", cards: set, id: nextFlashId() } };
+                return {
+                    ...state,
+                    flash: { kind: "hint", cards: set, id: nextFlashId() },
+                    pendingDiscard: set,
+                };
             }
             return { ...state, hintMsg: "no sets", hintMsgId: nextFlashId() };
         }
@@ -130,8 +134,17 @@ export const reducer = (state: GameState, action: Action): GameState => {
             if (state.pendingDiscard) {
                 const discard = state.pendingDiscard;
                 const stack = state.stack.filter((c) => !discard.includes(c));
+                // Hint penalty: shuffle the unseen portion of the deck.
+                const deck =
+                    state.flash.kind === "hint"
+                        ? [
+                              ...state.deck.slice(0, state.deckIndex),
+                              ...shuffle(state.deck.slice(state.deckIndex)),
+                          ]
+                        : state.deck;
                 const refilled = withRefill({
                     ...state,
+                    deck,
                     stack,
                     flash: null,
                     pendingDiscard: null,
