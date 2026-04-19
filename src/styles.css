@@ -1,0 +1,101 @@
+body {
+    background: #eee;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 24px;
+    margin: 0;
+}
+
+#game-cards {
+    display: block;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+#game-cards g {
+    stroke-width: 3px;
+}
+
+#game-cards g .card {
+    fill: white;
+    filter: url(#dropshadow);
+    stroke-width: 6px;
+    transition: stroke 0.3s;
+}
+
+#game-cards g:hover .card {
+    fill: #fafafa;
+    cursor: pointer;
+}
+
+#game-cards .card.selected {
+    filter: none;
+}
+
+#game-cards .symbol {
+    stroke-width: 3px;
+    transition: opacity 0.3s;
+}
+
+#game-cards.paused .symbol {
+    opacity: 0;
+}
+
+#controls {
+    font-size: 0.8em;
+    line-height: 34px;
+    margin: 1em auto 0;
+    width: 320px;
+}
+
+#cards-remaining,
+#score {
+    float: right;
+    margin-right: 1em;
+}
+
+#pause-game,
+#hint {
+    float: right;
+    margin-right: 1em;
+    background: #ccc;
+    border: 1px solid #666;
+    border-radius: 5px;
+    height: 30px;
+    width: 30px;
+    font-weight: bold;
+    font-size: 0.75em;
+    outline: none;
+}
+
+#pause-game:disabled,
+#hint:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+#pause-game:hover:not(:disabled),
+#hint:hover:not(:disabled) {
+    cursor: pointer;
+    background: #aaa;
+}
+
+#hint-msg {
+    float: right;
+    margin-right: 1em;
+    opacity: 0;
+    font-style: italic;
+    color: #888;
+    transition: opacity 0.3s;
+}
+
+#hint-msg.visible {
+    opacity: 1;
+}
+
+#game {
+    display: none;
+}
+
+#game.enabled {
+    display: block;
+}
